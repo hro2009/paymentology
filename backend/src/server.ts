@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import taskRoutes from './routes/taskRoutes';
 
 dotenv.config();
 
@@ -19,6 +20,9 @@ app.get('/', (req: Request, res: Response) => {
 app.get('/api/health', (req: Request, res: Response) => {
     res.json({ status: 'OK', message: 'Paymentology API is running' });
 });
+
+// Task routes
+app.use('/api/tasks', taskRoutes);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
