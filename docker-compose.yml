@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: paymentology-backend
+    environment:
+      - NODE_ENV=production
+      - PORT=5001
+    expose:
+      - "5001"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:5001/api/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: paymentology-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s

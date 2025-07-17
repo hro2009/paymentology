@@ -5,11 +5,13 @@ import {
   useQuery,
 } from '@tanstack/react-query';
 
-// Mock API function for demonstration
-const fetchData = async (): Promise<{ message: string }> => {
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return { message: 'Data loaded successfully!' };
+// API function to call backend
+const fetchBackendData = async (): Promise<{ status: string; message: string }> => {
+  const response = await fetch('/api/health');
+  if (!response.ok) {
+    throw new Error('Failed to fetch data from backend');
+  }
+  return response.json();
 };
 
 function AppContent() {
@@ -17,8 +19,8 @@ function AppContent() {
 
   // Example of TanStack Query usage
   const { data, isLoading, error } = useQuery({
-    queryKey: ['example-data'],
-    queryFn: fetchData,
+    queryKey: ['backend-health'],
+    queryFn: fetchBackendData,
   });
 
   return (
@@ -42,14 +44,19 @@ function AppContent() {
               and save to test HMR
             </p>
 
-            {/* TanStack Query example */}
+            {/* Backend API Integration */}
             <div className="mt-4 p-3 bg-blue-50 rounded border border-blue-200">
               <h3 className="font-semibold text-blue-800 mb-2">
-                TanStack Query Demo:
+                Backend API Status:
               </h3>
-              {isLoading && <p className="text-blue-600">Loading data...</p>}
-              {error && <p className="text-red-600">Error loading data</p>}
-              {data && <p className="text-green-700">{data.message}</p>}
+              {isLoading && <p className="text-blue-600">Checking backend...</p>}
+              {error && <p className="text-red-600">Backend connection failed</p>}
+              {data && (
+                <div className="text-green-700">
+                  <p><strong>Status:</strong> {data.status}</p>
+                  <p><strong>Message:</strong> {data.message}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
