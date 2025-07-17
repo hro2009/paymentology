@@ -26,7 +26,7 @@ export const TaskList: React.FC = () => {
 
   if (allTasksError) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-md p-4">
+      <div className="bg-red-50 border border-red-200 rounded-md p-4 mt-4">
         <div className="flex">
           <div className="flex-shrink-0">
             <svg
@@ -56,7 +56,7 @@ export const TaskList: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 mt-4">
       <div className="max-w-md">
         <SearchBar onSearch={setSearchQuery} />
       </div>
