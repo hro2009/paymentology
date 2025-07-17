@@ -11,14 +11,3 @@ export interface Task {
   createdAt: Date;
   updatedAt: Date;
 }
-
-export interface CreateTaskRequest {
-  title: string;
-  description: string;
-}
-
-export interface UpdateTaskRequest {
-  title?: string;
-  description?: string;
-  status?: TaskStatus;
-}
